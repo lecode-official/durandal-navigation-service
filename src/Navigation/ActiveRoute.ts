@@ -1,13 +1,13 @@
 ﻿
+///<amd-module name='Navigation/ActiveRoute'/>
+
 // #region Import Directives
 
-/// <reference path="../../Resources/Typings/References.d.ts" />
+/// <reference path="../Typings/References.d.ts" />
 
 import router = require("plugins/router");
-import CultureDetectionMethod = require("Services/Culture/CultureDetectionMethod");
-import CultureInfo = require("Services/Culture/CultureInfo");
-import CultureService = require("Services/Culture/CultureService");
-import Route = require("Services/Navigation/Route");
+import CultureInfo = require("Globalization/CultureInfo");
+import Route = require("Navigation/Route");
 
 // #endregion
 
@@ -128,7 +128,7 @@ class ActiveRoute {
         var basePath = "/";
         if (!!cultureOrAbsolute) {
             if (typeof cultureOrAbsolute === "boolean") {
-                basePath = window.location.protocol + "//" + window.location.host + "/" + (CultureService.detectionMethod == CultureDetectionMethod.Uri ? CultureService.currentCulture.name + "/" : "");
+                basePath = window.location.protocol + "//" + window.location.host + "/" + (this.route.addCultureToUri ? CultureInfo.currentCulture.name + "/" : "");
             } else {
                 basePath = window.location.protocol + "//" + window.location.host + "/" + cultureOrAbsolute.name + "/";
             }

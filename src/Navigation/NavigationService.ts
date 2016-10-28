@@ -1,15 +1,16 @@
 ﻿
+///<amd-module name='Navigation/NavigationService'/>
+
 // #region Import Directives
 
-/// <reference path="../../Resources/Typings/References.d.ts" />
+/// <reference path="../Typings/References.d.ts" />
 
 import app = require("durandal/app");
-import ActiveRoute = require("Services/Navigation/ActiveRoute");
-import CultureService = require("Services/Culture/CultureService");
-import jquery = require("jquery/core");
+import ActiveRoute = require("Navigation/ActiveRoute");
+import jquery = require("jquery");
 import knockout = require("knockout");
-import NavigationConfiguration = require("Services/Navigation/NavigationConfiguration");
-import Route = require("Services/Navigation/Route");
+import NavigationConfiguration = require("Navigation/NavigationConfiguration");
+import Route = require("Navigation/Route");
 import router = require("plugins/router");
 import viewLocator = require("durandal/viewLocator");
 
@@ -35,7 +36,7 @@ class NavigationService {
     /**
      * Contains all routes that have been added to the navigation service.
      */
-    private static _routes: { [name: string]: Route; } = null;
+    private static _routes: { [name: string]: Route; };
 
     /**
      * Contains the shell that uses the navigation service.
@@ -50,7 +51,7 @@ class NavigationService {
     /**
      * Contains the route that is currently active, and a set of parameters of the route.
      */
-    private static _activeRoute: KnockoutComputed<ActiveRoute>;
+    private static _activeRoute: KnockoutComputed<ActiveRoute|null>;
     
     /**
      * Contains the current configuration of the navigation service.
@@ -71,7 +72,7 @@ class NavigationService {
     /**
      * Gets the route that is currently active, and a set of parameters of the route.
      */
-    public static get activeRoute(): KnockoutComputed<ActiveRoute> {
+    public static get activeRoute(): KnockoutComputed<ActiveRoute|null> {
 
         // Initializes the computed if it does not exist
         if (!NavigationService._activeRoute) {
@@ -82,9 +83,15 @@ class NavigationService {
                     return null;
                 }
 
+                // Checks if the active route has a module ID
+                var moduleId = router.activeInstruction().config.moduleId;
+                if (!moduleId) {
+                    return null;
+                }
+
                 // Returns the route that is active
                 return new ActiveRoute(
-                    NavigationService.routes[NavigationService.routeNames[router.activeInstruction().config.moduleId].name],
+                    NavigationService.routes[NavigationService.routeNames[moduleId].name],
                     NavigationService.isPushStateEnabled ? router.activeInstruction().fragment : "#" + router.activeInstruction().fragment,
                     <string>router.activeInstruction().config.route,
                     router.activeInstruction().params,
@@ -111,11 +118,16 @@ class NavigationService {
             NavigationService._routes = {};
 
             // Gets the naviation model from the router and wraps the items into Route objects (if push state is enabled, the "hash" that is given to the Route object should not contain "#!")
-            router.navigationModel().forEach(route => NavigationService._routes[NavigationService.routeNames[route.moduleId].name] = new Route(
-                NavigationService.routeNames[route.moduleId].name,
-                route.title,
-                NavigationService.routeNames[route.moduleId].paths,
-                route.isActive));
+            router.navigationModel().forEach(route => {
+                if (!!route.moduleId) {
+                    NavigationService._routes[NavigationService.routeNames[route.moduleId].name] = new Route(
+                        NavigationService.routeNames[route.moduleId].name,
+                        route.title,
+                        NavigationService.routeNames[route.moduleId].paths,
+                        !!route.isActive ? route.isActive : knockout.computed(() => false),
+                        NavigationService.configuration.addCultureToUris);
+                }
+            });  
         }
 
         // Returns the stored routes
@@ -223,15 +235,6 @@ class NavigationService {
         var path = "";
         var search = window.location.search;
         if (!!window.location.pathname && window.location.pathname.substr(1).length > 0) {
-            
-            // Checks whether the pathname start with the requested culture
-            var requestedCultures = CultureService.supportedCultures.filter(supportedCulture => window.location.pathname.substr(1, supportedCulture.name.length).toUpperCase() == supportedCulture.name.toUpperCase());
-            if (requestedCultures.length > 0) {
-                root = requestedCultures[0].name;
-
-                // Sets the path without the culture
-                path = window.location.pathname.substr(1 + requestedCultures[0].name.length);
-            }
 
             // Removes /-character at the start or end of the path
             if (path.length > 0 && path.charAt(0) == "/") {

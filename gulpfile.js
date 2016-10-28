@@ -65,6 +65,6 @@ gulp.task("build:typescript", function() {
 gulp.task("build:typings", function() {
     dts.default({
         project: paths.basePath,
-        out: paths.buildPath + "/typescript-globalization.d.ts"
+        out: paths.buildPath + "/typescript-navigation-service.d.ts"
     });
 })

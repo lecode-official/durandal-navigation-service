@@ -1,4 +1,6 @@
 ﻿
+///<amd-module name='Navigation/NavigationConfiguration'/>
+
 /**
  * Represents the configuration of the navigation service.
  */
@@ -15,6 +17,11 @@ class NavigationConfiguration {
      * Gets or sets the start route that overrides the default start route.
      */
     public startRoute: string;
+
+    /**
+     * Gets or sets a value that indicates whether the culture should be added to the URL of the routes.
+     */
+    public addCultureToUris: boolean;
 
     // #endregion
 }

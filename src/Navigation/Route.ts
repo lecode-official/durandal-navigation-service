@@ -1,12 +1,12 @@
 ﻿
+///<amd-module name='Navigation/Route'/>
+
 // #region Import Directives
 
-/// <reference path="../../Resources/Typings/References.d.ts" />
+/// <reference path="../Typings/References.d.ts" />
 
 import router = require("plugins/router");
-import CultureDetectionMethod = require("Services/Culture/CultureDetectionMethod");
-import CultureInfo = require("Services/Culture/CultureInfo");
-import CultureService = require("Services/Culture/CultureService");
+import CultureInfo = require("Globalization/CultureInfo");
 
 // #endregion
 
@@ -23,12 +23,14 @@ class Route {
      * @param {string} title The title of the route, which is displayed in the title bar of the browser.
      * @param {Array<string>} paths All paths that match the route.
      * @param {KnockoutComputed<boolean>} isActive A value that determines whether the route is currently active. 
+     * @param {boolean} addCultureToUri A value that determines whether the culture should be added to the URL of the route.
      */
-    constructor(name: string, title: string, paths: Array<string>, isActive: KnockoutComputed<boolean>) {
+    constructor(name: string, title: string, paths: Array<string>, isActive: KnockoutComputed<boolean>, addCultureToUri: boolean) {
         this.paths = this.generatePaths(paths);
         this._name = name;
         this._title = title;
         this._isActive = isActive;
+        this._addCultureToUri = addCultureToUri;
     }
 
     // #endregion
@@ -55,6 +57,11 @@ class Route {
      */
     private _isActive: KnockoutComputed<boolean>;
 
+    /**
+     * Contains a value that indicates whether the culture should be added to the URL of the route.
+     */
+    private _addCultureToUri: boolean;
+
     // #endregion
 
     // #region Public Properties
@@ -78,6 +85,13 @@ class Route {
      */
     public get isActive(): KnockoutComputed<boolean> {
         return this._isActive;
+    }
+
+    /**
+     * Gets a value that indicates whether the culture is added to the URL of the route.
+     */
+    public get addCultureToUri(): boolean {
+        return this._addCultureToUri;
     }
     
     // #endregion
@@ -181,7 +195,7 @@ class Route {
         var basePath = "/";
         if (!!cultureOrAbsolute) {
             if (typeof cultureOrAbsolute === "boolean") {
-                basePath = window.location.protocol + "//" + window.location.host + "/" + (CultureService.detectionMethod == CultureDetectionMethod.Uri ? CultureService.currentCulture.name + "/" : "");
+                basePath = window.location.protocol + "//" + window.location.host + "/" + (this.addCultureToUri ? CultureInfo.currentCulture.name + "/" : "");
             } else {
                 basePath = window.location.protocol + "//" + window.location.host + "/" + cultureOrAbsolute.name + "/";
             }

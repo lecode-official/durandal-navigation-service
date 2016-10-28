@@ -20,7 +20,7 @@
     "jQuery",
     "TypeScript"
   ],
-  "version": "0.0.1",
+  "version": "0.1.0",
   "license": "MIT",
   "ignore": [
     "**/.*",
@@ -31,6 +31,11 @@
     "package.json"
   ],
   "dependencies": {
-    "jquery": "~3.1.1"
+    "durandal": "2.2.0",
+    "jquery": "~3.1.1",
+    "typescript-globalization": "https://github.com/lecode-official/typescript-globalization.git#v0.1.1"
+  },
+  "resolutions": {
+    "jquery": "3.1.1"
   }
 }
