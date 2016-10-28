@@ -71,11 +71,11 @@ declare module 'Navigation/NavigationConfiguration' {
 	    /**
 	     * Gets or sets the root path that overrides the default root path.
 	     */
-	    rootPath: string;
+	    rootPath: string | null;
 	    /**
 	     * Gets or sets the start route that overrides the default start route.
 	     */
-	    startRoute: string;
+	    startRoute: string | null;
 	    /**
 	     * Gets or sets a value that indicates whether the culture should be added to the URL of the routes.
 	     */
