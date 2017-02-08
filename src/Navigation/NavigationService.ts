@@ -34,6 +34,17 @@ class NavigationService {
     private static routeNames: { [moduleId: string]: { name: string; paths: Array<string> }; } = {};
 
     /**
+     * Contains a value that determines whether the last navigation was backwards or forwards.
+     */
+    private static wasLastNavigationBackwards = false;
+
+    /**
+     * Contains a the depth of the navigation stack. Everytime the user navigates fowards, this depth is increased and everytime the user is navigating backwards, this value is decreased. This is used to detect,
+     * whether the browser's backwards navigation is enabled (there is no other way to find out).
+     */
+    private static navigationStackDepth: KnockoutObservable<number> = knockout.observable<number>(0);
+
+    /**
      * Contains all routes that have been added to the navigation service.
      */
     private static _routes: { [name: string]: Route; };
@@ -68,6 +79,11 @@ class NavigationService {
     public static get isNavigating(): KnockoutComputed<boolean> {
         return NavigationService._isNavigating;
     }
+
+    /**
+     * Gets a value that determines whether the browser can navigate backwards in its history.
+     */
+    public static canNavigateBackwards: KnockoutComputed<boolean> = knockout.computed(() => NavigationService.navigationStackDepth() > 0);
 
     /**
      * Gets the route that is currently active, and a set of parameters of the route.
@@ -249,6 +265,20 @@ class NavigationService {
         if (!!NavigationService.configuration.rootPath) {
             root = NavigationService.configuration.rootPath;
         }
+
+        // Subscribes to the route activation event, which is invoked during navigation, this is only used to temporarily store whether the user is navigating forwards or backwards, since this cannot be known once the
+        // navigation has completed, but before the navigation has finished, it may still be cancelled, therefore only when the complete event fires, it can be really known whether the navigation was successful
+        router.on("router:route:activating", () => NavigationService.wasLastNavigationBackwards = (<any>router).navigatingBack);
+
+        // Subscribes to the navigation complete event, when the user was navigating forwards then the navigation stack depth is increased, otherwise it is decreased, the depth is used to determine whether the user can
+        // navigate backwards in the browser history (which is only, when the navigation depth, i.e. the number of times the user navigated forwards, is larger than 0)
+        router.on("router:navigation:complete", () => {
+            if (NavigationService.wasLastNavigationBackwards) {
+                NavigationService.navigationStackDepth(NavigationService.navigationStackDepth() == 0 ? 0 : NavigationService.navigationStackDepth() - 1);
+            } else {
+                NavigationService.navigationStackDepth(NavigationService.navigationStackDepth() + 1);
+            }
+        });
 
         // Checks whether push state is enabled
         if (NavigationService.isPushStateEnabled) {
