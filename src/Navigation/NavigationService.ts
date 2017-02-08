@@ -51,8 +51,8 @@ class NavigationService {
     /**
      * Contains the route that is currently active, and a set of parameters of the route.
      */
-    private static _activeRoute: KnockoutComputed<ActiveRoute|null>;
-    
+    private static _activeRoute: KnockoutComputed<ActiveRoute | null>;
+
     /**
      * Contains the current configuration of the navigation service.
      */
@@ -67,12 +67,12 @@ class NavigationService {
      */
     public static get isNavigating(): KnockoutComputed<boolean> {
         return NavigationService._isNavigating;
-    } 
+    }
 
     /**
      * Gets the route that is currently active, and a set of parameters of the route.
      */
-    public static get activeRoute(): KnockoutComputed<ActiveRoute|null> {
+    public static get activeRoute(): KnockoutComputed<ActiveRoute | null> {
 
         // Initializes the computed if it does not exist
         if (!NavigationService._activeRoute) {
@@ -127,7 +127,7 @@ class NavigationService {
                         !!route.isActive ? route.isActive : knockout.computed(() => false),
                         NavigationService.configuration.addCultureToUris);
                 }
-            });  
+            });
         }
 
         // Returns the stored routes
@@ -140,7 +140,7 @@ class NavigationService {
     public static get shell(): any {
         return NavigationService._shell;
     }
-    
+
     // #endregion
 
     // #region Public Static Methods
@@ -181,7 +181,7 @@ class NavigationService {
      * @param {Array<string>} paths The paths that should map to this route. If no paths are provided, the route will catch all unknown paths.
      */
     public static addRoute(name: string, title: string, ...paths: Array<string>) {
-        
+
         // Checks whether push state is not supported
         if (!!paths && !NavigationService.isPushStateEnabled) {
 
@@ -193,7 +193,7 @@ class NavigationService {
                 paths.push("");
             }
         }
-        
+
         // Adds the route to the list of route names, so that the name can be determined by the routes property later on
         NavigationService.routeNames["ViewModels/" + name + "ViewModel"] = { name: name, paths: paths };
 
@@ -210,7 +210,7 @@ class NavigationService {
             router.mapUnknownRoutes("ViewModels/" + name + "ViewModel");
         }
     }
-    
+
     /**
      * Navigates back to the last route that has been active.
      */
@@ -252,7 +252,7 @@ class NavigationService {
 
         // Checks whether push state is enabled
         if (NavigationService.isPushStateEnabled) {
-            
+
             // Checks whether a start route has been configured
             if (!!NavigationService.configuration.startRoute) {
 
@@ -273,7 +273,7 @@ class NavigationService {
 
             // Checks whether a start route has been configured
             if (!!NavigationService.configuration.startRoute) {
-                
+
                 // Activates the router with hash change
                 return router.activate({ startRoute: "#!" + NavigationService.configuration.startRoute });
             }
@@ -304,7 +304,7 @@ class NavigationService {
      * @param {string} anchor The anchor to which the page is scrolled.
      */
     public static scrollTo(anchor: string) {
-        
+
         // Scrolls to the anchor of the page
         try {
             jquery("html,body").animate({ scrollTop: jquery("#" + anchor).offset().top }, 600);

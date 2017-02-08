@@ -15,7 +15,7 @@ import Route = require("Navigation/Route");
  * Represents a route of the navigation service, which is currently active with a defined set of parameters.
  */
 class ActiveRoute {
-    
+
     // #region Constructors
 
     /**
@@ -75,9 +75,9 @@ class ActiveRoute {
     public get viewModel(): any {
         return router.activeItem();
     }
-    
+
     // #endregion
-    
+
     // #region Private Methods
 
     /**
@@ -119,7 +119,7 @@ class ActiveRoute {
 
     /**
      * Generates a URL href that can be used in links that should navigate to the route.
-     * @param {CultureInfo|boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
+     * @param {CultureInfo | boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
      * @return {string} Returns the href link that can be used in views to navigate to the route.
      */
     public href(cultureOrAbsolute?: CultureInfo | boolean): string {
@@ -137,13 +137,13 @@ class ActiveRoute {
         // Returns the link
         return basePath + this.fragment;
     }
-    
+
     /**
      * Navigates to the route.
-     * @param {CultureInfo|boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
+     * @param {CultureInfo | boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
      */
     public navigate(cultureOrAbsolute?: CultureInfo | boolean) {
-        
+
         // Checks whether a culture is provided, so a redirect has to be made
         if (!!cultureOrAbsolute) {
             if (typeof cultureOrAbsolute === "boolean") {

@@ -135,8 +135,8 @@ define("Navigation/Route", ["require", "exports", "plugins/router", "Globalizati
         // #region Public Methods
         /**
          * Generates a URL href that can be used in links that should navigate to the route.
-         * @param {{ [key: string]: any; }|string} parameters If a string parameter is specified, it is used as ":id" parameter in the route. Providing a dictionary, all route parameters can be specified.
-         * @param {CultureInfo|boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
+         * @param {{ [key: string]: any; } | string} parameters If a string parameter is specified, it is used as ":id" parameter in the route. Providing a dictionary, all route parameters can be specified.
+         * @param {CultureInfo | boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
          * @return {string} Returns the href link that can be used in views to navigate to the route.
          */
         Route.prototype.href = function (parameters, cultureOrAbsolute) {
@@ -150,7 +150,7 @@ define("Navigation/Route", ["require", "exports", "plugins/router", "Globalizati
                     basePath = window.location.protocol + "//" + window.location.host + "/" + cultureOrAbsolute.name + "/";
                 }
             }
-            // Checks whether the parameters are provided, otherwise the hash is used without any replacement 
+            // Checks whether the parameters are provided, otherwise the hash is used without any replacement
             if (!parameters) {
                 return basePath + this.generateUri({});
             }
@@ -164,8 +164,8 @@ define("Navigation/Route", ["require", "exports", "plugins/router", "Globalizati
         };
         /**
          * Navigates to the route.
-         * @param {{ [key: string]: string; }|string} parameters If a string parameter is specified, it is used as ":id" parameter in the route. Providing a dictionary, all route parameters can be specified.
-         * @param {CultureInfo|boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
+         * @param {{ [key: string]: string; } | string} parameters If a string parameter is specified, it is used as ":id" parameter in the route. Providing a dictionary, all route parameters can be specified.
+         * @param {CultureInfo | boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
          */
         Route.prototype.navigate = function (parameters, cultureOrAbsolute) {
             // Checks whether a culture is provided, so a redirect has to be made
@@ -179,7 +179,7 @@ define("Navigation/Route", ["require", "exports", "plugins/router", "Globalizati
                     return;
                 }
             }
-            // Checks whether the parameters are provided, otherwise the hash is used for navigation without any replacement 
+            // Checks whether the parameters are provided, otherwise the hash is used for navigation without any replacement
             if (!parameters) {
                 router.navigate(this.generateUri({}));
                 return;
