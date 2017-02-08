@@ -2,7 +2,8 @@
 /// <reference path="../../bower_components/DefinitelyTyped/jquery/index.d.ts" />
 /// <reference path="../../bower_components/DefinitelyTyped/durandal/index.d.ts" />
 /// <reference path="../../bower_components/DefinitelyTyped/knockout/index.d.ts" />
-/// <reference path="../../bower_components/typescript-globalization/build/typescript-globalization.d.ts" />declare module 'Navigation/ActiveRoute' {
+/// <reference path="../../bower_components/typescript-globalization/build/typescript-globalization.d.ts" />
+declare module 'Navigation/ActiveRoute' {
 	/// <reference path="../Typings/References.d.ts" />
 	import CultureInfo = require("Globalization/CultureInfo");
 	import Route = require("Navigation/Route"); class ActiveRoute {
@@ -98,6 +99,15 @@ declare module 'Navigation/NavigationService' {
 	     */
 	    private static routeNames;
 	    /**
+	     * Contains a value that determines whether the last navigation was backwards or forwards.
+	     */
+	    private static wasLastNavigationBackwards;
+	    /**
+	     * Contains a the depth of the navigation stack. Everytime the user navigates fowards, this depth is increased and everytime the user is navigating backwards, this value is decreased. This is used to detect,
+	     * whether the browser's backwards navigation is enabled (there is no other way to find out).
+	     */
+	    private static navigationStackDepth;
+	    /**
 	     * Contains all routes that have been added to the navigation service.
 	     */
 	    private static _routes;
@@ -121,6 +131,10 @@ declare module 'Navigation/NavigationService' {
 	     * Gets a value that determines whether the navigation service is currently navigating.
 	     */
 	    static readonly isNavigating: KnockoutComputed<boolean>;
+	    /**
+	     * Gets a value that determines whether the browser can navigate backwards in its history.
+	     */
+	    static canNavigateBackwards: KnockoutComputed<boolean>;
 	    /**
 	     * Gets the route that is currently active, and a set of parameters of the route.
 	     */
