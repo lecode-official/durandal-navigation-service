@@ -11,12 +11,12 @@ class NavigationConfiguration {
     /**
      * Gets or sets the root path that overrides the default root path.
      */
-    public rootPath: string|null;
+    public rootPath: string | null;
 
     /**
      * Gets or sets the start route that overrides the default start route.
      */
-    public startRoute: string|null;
+    public startRoute: string | null;
 
     /**
      * Gets or sets a value that indicates whether the culture should be added to the URL of the routes.

@@ -22,7 +22,7 @@ class Route {
      * @param {string} name The name of the route.
      * @param {string} title The title of the route, which is displayed in the title bar of the browser.
      * @param {Array<string>} paths All paths that match the route.
-     * @param {KnockoutComputed<boolean>} isActive A value that determines whether the route is currently active. 
+     * @param {KnockoutComputed<boolean>} isActive A value that determines whether the route is currently active.
      * @param {boolean} addCultureToUri A value that determines whether the culture should be added to the URL of the route.
      */
     constructor(name: string, title: string, paths: Array<string>, isActive: KnockoutComputed<boolean>, addCultureToUri: boolean) {
@@ -41,7 +41,7 @@ class Route {
      * Contains all paths that match the route.
      */
     private paths: { [key: string]: Array<string> };
-    
+
     /**
      * Contains the name of the route.
      */
@@ -93,7 +93,7 @@ class Route {
     public get addCultureToUri(): boolean {
         return this._addCultureToUri;
     }
-    
+
     // #endregion
 
     // #region Private Methods
@@ -152,7 +152,7 @@ class Route {
 
         // Gets the path with the most parameters
         var fittingPath = fittingPaths.sort((a, b) => this.paths[a].length > this.paths[b].length ? -1 : 1)[0];
-        
+
         // Adds all the parameters
         fittingPath = fittingPath.replace(new RegExp(":[a-zA-Z_][0-9a-zA-Z_]*", "g"), parameter => {
 
@@ -185,12 +185,12 @@ class Route {
 
     /**
      * Generates a URL href that can be used in links that should navigate to the route.
-     * @param {{ [key: string]: any; }|string} parameters If a string parameter is specified, it is used as ":id" parameter in the route. Providing a dictionary, all route parameters can be specified.
-     * @param {CultureInfo|boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
+     * @param {{ [key: string]: any; } | string} parameters If a string parameter is specified, it is used as ":id" parameter in the route. Providing a dictionary, all route parameters can be specified.
+     * @param {CultureInfo | boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
      * @return {string} Returns the href link that can be used in views to navigate to the route.
      */
     public href(parameters?: { [key: string]: any; } | string, cultureOrAbsolute?: CultureInfo | boolean): string {
-        
+
         // Initializes the base path depending on the culture parameter
         var basePath = "/";
         if (!!cultureOrAbsolute) {
@@ -200,8 +200,8 @@ class Route {
                 basePath = window.location.protocol + "//" + window.location.host + "/" + cultureOrAbsolute.name + "/";
             }
         }
-        
-        // Checks whether the parameters are provided, otherwise the hash is used without any replacement 
+
+        // Checks whether the parameters are provided, otherwise the hash is used without any replacement
         if (!parameters) {
             return basePath + this.generateUri({});
         }
@@ -213,11 +213,11 @@ class Route {
             return basePath + this.generateUri(parameters);
         }
     }
-    
+
     /**
      * Navigates to the route.
-     * @param {{ [key: string]: string; }|string} parameters If a string parameter is specified, it is used as ":id" parameter in the route. Providing a dictionary, all route parameters can be specified.
-     * @param {CultureInfo|boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
+     * @param {{ [key: string]: string; } | string} parameters If a string parameter is specified, it is used as ":id" parameter in the route. Providing a dictionary, all route parameters can be specified.
+     * @param {CultureInfo | boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
      */
     public navigate(parameters?: { [key: string]: any; } | string, cultureOrAbsolute?: CultureInfo | boolean) {
 
@@ -232,7 +232,7 @@ class Route {
             }
         }
 
-        // Checks whether the parameters are provided, otherwise the hash is used for navigation without any replacement 
+        // Checks whether the parameters are provided, otherwise the hash is used for navigation without any replacement
         if (!parameters) {
             router.navigate(this.generateUri({}));
             return;

@@ -53,13 +53,13 @@
 	    private generateParameters(path, parameters, queryParameters);
 	    /**
 	     * Generates a URL href that can be used in links that should navigate to the route.
-	     * @param {CultureInfo|boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
+	     * @param {CultureInfo | boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
 	     * @return {string} Returns the href link that can be used in views to navigate to the route.
 	     */
 	    href(cultureOrAbsolute?: CultureInfo | boolean): string;
 	    /**
 	     * Navigates to the route.
-	     * @param {CultureInfo|boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
+	     * @param {CultureInfo | boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
 	     */
 	    navigate(cultureOrAbsolute?: CultureInfo | boolean): void;
 	}
@@ -238,8 +238,8 @@ declare module 'Navigation/Route' {
 	    private generateUri(parameters);
 	    /**
 	     * Generates a URL href that can be used in links that should navigate to the route.
-	     * @param {{ [key: string]: any; }|string} parameters If a string parameter is specified, it is used as ":id" parameter in the route. Providing a dictionary, all route parameters can be specified.
-	     * @param {CultureInfo|boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
+	     * @param {{ [key: string]: any; } | string} parameters If a string parameter is specified, it is used as ":id" parameter in the route. Providing a dictionary, all route parameters can be specified.
+	     * @param {CultureInfo | boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
 	     * @return {string} Returns the href link that can be used in views to navigate to the route.
 	     */
 	    href(parameters?: {
@@ -247,8 +247,8 @@ declare module 'Navigation/Route' {
 	    } | string, cultureOrAbsolute?: CultureInfo | boolean): string;
 	    /**
 	     * Navigates to the route.
-	     * @param {{ [key: string]: string; }|string} parameters If a string parameter is specified, it is used as ":id" parameter in the route. Providing a dictionary, all route parameters can be specified.
-	     * @param {CultureInfo|boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
+	     * @param {{ [key: string]: string; } | string} parameters If a string parameter is specified, it is used as ":id" parameter in the route. Providing a dictionary, all route parameters can be specified.
+	     * @param {CultureInfo | boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
 	     */
 	    navigate(parameters?: {
 	        [key: string]: any;
