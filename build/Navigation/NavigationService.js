@@ -238,24 +238,24 @@ define("Navigation/NavigationService", ["require", "exports", "durandal/app", "N
                 return false;
             }
         };
-        // #region Private Static Fields
-        /**
-         * Contains a value that determines whether push state is supported by the browser
-         */
-        NavigationService.isPushStateEnabled = !!(window.history && history.pushState);
-        /**
-         * Contains a dictionary of the module ID and the name of the route. This is used to get the name from a module ID.
-         */
-        NavigationService.routeNames = {};
-        /**
-         * Contains the shell that uses the navigation service.
-         */
-        NavigationService._shell = null;
-        /**
-         * Contains a value that determines whether the navigation service is currently navigating.
-         */
-        NavigationService._isNavigating = router.isNavigating;
         return NavigationService;
     }());
+    // #region Private Static Fields
+    /**
+     * Contains a value that determines whether push state is supported by the browser
+     */
+    NavigationService.isPushStateEnabled = !!(window.history && history.pushState);
+    /**
+     * Contains a dictionary of the module ID and the name of the route. This is used to get the name from a module ID.
+     */
+    NavigationService.routeNames = {};
+    /**
+     * Contains the shell that uses the navigation service.
+     */
+    NavigationService._shell = null;
+    /**
+     * Contains a value that determines whether the navigation service is currently navigating.
+     */
+    NavigationService._isNavigating = router.isNavigating;
     return NavigationService;
 });
