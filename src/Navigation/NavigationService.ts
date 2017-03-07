@@ -302,12 +302,26 @@ class NavigationService {
     /**
      * Scrolls to an anchor of the page.
      * @param {string} anchor The anchor to which the page is scrolled.
+     * @param {number} offset The offset of the scroll action.
      */
-    public static scrollTo(anchor: string) {
+    public static scrollTo(anchor: string, offset?: number) {
         
         // Scrolls to the anchor of the page
         try {
-            jquery("html,body").animate({ scrollTop: jquery("#" + anchor).offset().top }, 600);
+            jquery("html,body").animate({ scrollTop: jquery("#" + anchor).offset().top + (!!offset ? offset : 0) }, 600);
+        } catch (Exception) { }
+    }
+
+    /**
+     * Scrolls to an anchor of the page, which may be defined by a selector.
+     * @param {string} selector The selector to which the page is scrolled.
+     * @param {number} offset The offset of the scroll action.
+     */
+    public static scrollToSelector(selector: string, offset?: number) {
+        
+        // Scrolls to the selector on the page
+        try {
+            jquery("html,body").animate({ scrollTop: jquery(selector).offset().top + (!!offset ? offset : 0) }, 600);
         } catch (Exception) { }
     }
 

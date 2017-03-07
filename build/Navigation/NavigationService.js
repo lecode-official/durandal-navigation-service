@@ -216,11 +216,24 @@ define("Navigation/NavigationService", ["require", "exports", "durandal/app", "N
         /**
          * Scrolls to an anchor of the page.
          * @param {string} anchor The anchor to which the page is scrolled.
+         * @param {number} offset The offset of the scroll action.
          */
-        NavigationService.scrollTo = function (anchor) {
+        NavigationService.scrollTo = function (anchor, offset) {
             // Scrolls to the anchor of the page
             try {
-                jquery("html,body").animate({ scrollTop: jquery("#" + anchor).offset().top }, 600);
+                jquery("html,body").animate({ scrollTop: jquery("#" + anchor).offset().top + (!!offset ? offset : 0) }, 600);
+            }
+            catch (Exception) { }
+        };
+        /**
+         * Scrolls to an anchor of the page, which may be defined by a selector.
+         * @param {string} selector The selector to which the page is scrolled.
+         * @param {number} offset The offset of the scroll action.
+         */
+        NavigationService.scrollToSelector = function (selector, offset) {
+            // Scrolls to the selector on the page
+            try {
+                jquery("html,body").animate({ scrollTop: jquery(selector).offset().top + (!!offset ? offset : 0) }, 600);
             }
             catch (Exception) { }
         };
@@ -238,24 +251,24 @@ define("Navigation/NavigationService", ["require", "exports", "durandal/app", "N
                 return false;
             }
         };
-        // #region Private Static Fields
-        /**
-         * Contains a value that determines whether push state is supported by the browser
-         */
-        NavigationService.isPushStateEnabled = !!(window.history && history.pushState);
-        /**
-         * Contains a dictionary of the module ID and the name of the route. This is used to get the name from a module ID.
-         */
-        NavigationService.routeNames = {};
-        /**
-         * Contains the shell that uses the navigation service.
-         */
-        NavigationService._shell = null;
-        /**
-         * Contains a value that determines whether the navigation service is currently navigating.
-         */
-        NavigationService._isNavigating = router.isNavigating;
         return NavigationService;
     }());
+    // #region Private Static Fields
+    /**
+     * Contains a value that determines whether push state is supported by the browser
+     */
+    NavigationService.isPushStateEnabled = !!(window.history && history.pushState);
+    /**
+     * Contains a dictionary of the module ID and the name of the route. This is used to get the name from a module ID.
+     */
+    NavigationService.routeNames = {};
+    /**
+     * Contains the shell that uses the navigation service.
+     */
+    NavigationService._shell = null;
+    /**
+     * Contains a value that determines whether the navigation service is currently navigating.
+     */
+    NavigationService._isNavigating = router.isNavigating;
     return NavigationService;
 });
