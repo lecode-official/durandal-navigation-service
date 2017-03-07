@@ -86,7 +86,7 @@ define("Navigation/ActiveRoute", ["require", "exports", "plugins/router", "Globa
         // #region Public Methods
         /**
          * Generates a URL href that can be used in links that should navigate to the route.
-         * @param {CultureInfo|boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
+         * @param {CultureInfo | boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
          * @return {string} Returns the href link that can be used in views to navigate to the route.
          */
         ActiveRoute.prototype.href = function (cultureOrAbsolute) {
@@ -105,7 +105,7 @@ define("Navigation/ActiveRoute", ["require", "exports", "plugins/router", "Globa
         };
         /**
          * Navigates to the route.
-         * @param {CultureInfo|boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
+         * @param {CultureInfo | boolean} cultureOrAbsolute If a culture is provided, a link will be returned that can be used to change the culture of the application. If the value is a boolean, an absolute URI is returned.
          */
         ActiveRoute.prototype.navigate = function (cultureOrAbsolute) {
             // Checks whether a culture is provided, so a redirect has to be made

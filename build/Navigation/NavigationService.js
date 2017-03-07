@@ -176,6 +176,19 @@ define("Navigation/NavigationService", ["require", "exports", "durandal/app", "N
             if (!!NavigationService.configuration.rootPath) {
                 root = NavigationService.configuration.rootPath;
             }
+            // Subscribes to the route activation event, which is invoked during navigation, this is only used to temporarily store whether the user is navigating forwards or backwards, since this cannot be known once the
+            // navigation has completed, but before the navigation has finished, it may still be cancelled, therefore only when the complete event fires, it can be really known whether the navigation was successful
+            router.on("router:route:activating", function () { return NavigationService.wasLastNavigationBackwards = router.navigatingBack; });
+            // Subscribes to the navigation complete event, when the user was navigating forwards then the navigation stack depth is increased, otherwise it is decreased, the depth is used to determine whether the user can
+            // navigate backwards in the browser history (which is only, when the navigation depth, i.e. the number of times the user navigated forwards, is larger than 0)
+            router.on("router:navigation:complete", function () {
+                if (NavigationService.wasLastNavigationBackwards) {
+                    NavigationService.navigationStackDepth(NavigationService.navigationStackDepth() == 0 ? 0 : NavigationService.navigationStackDepth() - 1);
+                }
+                else {
+                    NavigationService.navigationStackDepth(NavigationService.navigationStackDepth() + 1);
+                }
+            });
             // Checks whether push state is enabled
             if (NavigationService.isPushStateEnabled) {
                 // Checks whether a start route has been configured
@@ -263,6 +276,15 @@ define("Navigation/NavigationService", ["require", "exports", "durandal/app", "N
      */
     NavigationService.routeNames = {};
     /**
+     * Contains a value that determines whether the last navigation was backwards or forwards.
+     */
+    NavigationService.wasLastNavigationBackwards = false;
+    /**
+     * Contains a the depth of the navigation stack. Everytime the user navigates fowards, this depth is increased and everytime the user is navigating backwards, this value is decreased. This is used to detect,
+     * whether the browser's backwards navigation is enabled (there is no other way to find out).
+     */
+    NavigationService.navigationStackDepth = knockout.observable(0);
+    /**
      * Contains the shell that uses the navigation service.
      */
     NavigationService._shell = null;
@@ -270,5 +292,9 @@ define("Navigation/NavigationService", ["require", "exports", "durandal/app", "N
      * Contains a value that determines whether the navigation service is currently navigating.
      */
     NavigationService._isNavigating = router.isNavigating;
+    /**
+     * Gets a value that determines whether the browser can navigate backwards in its history.
+     */
+    NavigationService.canNavigateBackwards = knockout.computed(function () { return NavigationService.navigationStackDepth() > 0; });
     return NavigationService;
 });

@@ -34,6 +34,17 @@ class NavigationService {
     private static routeNames: { [moduleId: string]: { name: string; paths: Array<string> }; } = {};
 
     /**
+     * Contains a value that determines whether the last navigation was backwards or forwards.
+     */
+    private static wasLastNavigationBackwards = false;
+
+    /**
+     * Contains a the depth of the navigation stack. Everytime the user navigates fowards, this depth is increased and everytime the user is navigating backwards, this value is decreased. This is used to detect,
+     * whether the browser's backwards navigation is enabled (there is no other way to find out).
+     */
+    private static navigationStackDepth: KnockoutObservable<number> = knockout.observable<number>(0);
+
+    /**
      * Contains all routes that have been added to the navigation service.
      */
     private static _routes: { [name: string]: Route; };
@@ -51,8 +62,8 @@ class NavigationService {
     /**
      * Contains the route that is currently active, and a set of parameters of the route.
      */
-    private static _activeRoute: KnockoutComputed<ActiveRoute|null>;
-    
+    private static _activeRoute: KnockoutComputed<ActiveRoute | null>;
+
     /**
      * Contains the current configuration of the navigation service.
      */
@@ -67,12 +78,17 @@ class NavigationService {
      */
     public static get isNavigating(): KnockoutComputed<boolean> {
         return NavigationService._isNavigating;
-    } 
+    }
+
+    /**
+     * Gets a value that determines whether the browser can navigate backwards in its history.
+     */
+    public static canNavigateBackwards: KnockoutComputed<boolean> = knockout.computed(() => NavigationService.navigationStackDepth() > 0);
 
     /**
      * Gets the route that is currently active, and a set of parameters of the route.
      */
-    public static get activeRoute(): KnockoutComputed<ActiveRoute|null> {
+    public static get activeRoute(): KnockoutComputed<ActiveRoute | null> {
 
         // Initializes the computed if it does not exist
         if (!NavigationService._activeRoute) {
@@ -127,7 +143,7 @@ class NavigationService {
                         !!route.isActive ? route.isActive : knockout.computed(() => false),
                         NavigationService.configuration.addCultureToUris);
                 }
-            });  
+            });
         }
 
         // Returns the stored routes
@@ -140,7 +156,7 @@ class NavigationService {
     public static get shell(): any {
         return NavigationService._shell;
     }
-    
+
     // #endregion
 
     // #region Public Static Methods
@@ -181,7 +197,7 @@ class NavigationService {
      * @param {Array<string>} paths The paths that should map to this route. If no paths are provided, the route will catch all unknown paths.
      */
     public static addRoute(name: string, title: string, ...paths: Array<string>) {
-        
+
         // Checks whether push state is not supported
         if (!!paths && !NavigationService.isPushStateEnabled) {
 
@@ -193,7 +209,7 @@ class NavigationService {
                 paths.push("");
             }
         }
-        
+
         // Adds the route to the list of route names, so that the name can be determined by the routes property later on
         NavigationService.routeNames["ViewModels/" + name + "ViewModel"] = { name: name, paths: paths };
 
@@ -210,7 +226,7 @@ class NavigationService {
             router.mapUnknownRoutes("ViewModels/" + name + "ViewModel");
         }
     }
-    
+
     /**
      * Navigates back to the last route that has been active.
      */
@@ -250,9 +266,23 @@ class NavigationService {
             root = NavigationService.configuration.rootPath;
         }
 
+        // Subscribes to the route activation event, which is invoked during navigation, this is only used to temporarily store whether the user is navigating forwards or backwards, since this cannot be known once the
+        // navigation has completed, but before the navigation has finished, it may still be cancelled, therefore only when the complete event fires, it can be really known whether the navigation was successful
+        router.on("router:route:activating", () => NavigationService.wasLastNavigationBackwards = (<any>router).navigatingBack);
+
+        // Subscribes to the navigation complete event, when the user was navigating forwards then the navigation stack depth is increased, otherwise it is decreased, the depth is used to determine whether the user can
+        // navigate backwards in the browser history (which is only, when the navigation depth, i.e. the number of times the user navigated forwards, is larger than 0)
+        router.on("router:navigation:complete", () => {
+            if (NavigationService.wasLastNavigationBackwards) {
+                NavigationService.navigationStackDepth(NavigationService.navigationStackDepth() == 0 ? 0 : NavigationService.navigationStackDepth() - 1);
+            } else {
+                NavigationService.navigationStackDepth(NavigationService.navigationStackDepth() + 1);
+            }
+        });
+
         // Checks whether push state is enabled
         if (NavigationService.isPushStateEnabled) {
-            
+
             // Checks whether a start route has been configured
             if (!!NavigationService.configuration.startRoute) {
 
@@ -273,7 +303,7 @@ class NavigationService {
 
             // Checks whether a start route has been configured
             if (!!NavigationService.configuration.startRoute) {
-                
+
                 // Activates the router with hash change
                 return router.activate({ startRoute: "#!" + NavigationService.configuration.startRoute });
             }
@@ -305,7 +335,6 @@ class NavigationService {
      * @param {number} offset The offset of the scroll action.
      */
     public static scrollTo(anchor: string, offset?: number) {
-        
         // Scrolls to the anchor of the page
         try {
             jquery("html,body").animate({ scrollTop: jquery("#" + anchor).offset().top + (!!offset ? offset : 0) }, 600);
