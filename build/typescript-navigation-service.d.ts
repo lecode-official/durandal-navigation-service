@@ -178,8 +178,15 @@ declare module 'Navigation/NavigationService' {
 	    /**
 	     * Scrolls to an anchor of the page.
 	     * @param {string} anchor The anchor to which the page is scrolled.
+	     * @param {number} offset The offset of the scroll action.
 	     */
-	    static scrollTo(anchor: string): void;
+	    static scrollTo(anchor: string, offset?: number): void;
+	    /**
+	     * Scrolls to an anchor of the page, which may be defined by a selector.
+	     * @param {string} selector The selector to which the page is scrolled.
+	     * @param {number} offset The offset of the scroll action.
+	     */
+	    static scrollToSelector(selector: string, offset?: number): void;
 	    /**
 	     * Checks whether the element with the provided anchor is in the current view.
 	     * @param {string} anchor The anchor which is searched for.
