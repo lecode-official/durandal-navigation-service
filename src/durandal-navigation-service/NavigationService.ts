@@ -1,16 +1,16 @@
 ﻿
-///<amd-module name='Navigation/NavigationService'/>
+///<amd-module name='durandal-navigation-service/NavigationService'/>
 
 // #region Import Directives
 
-/// <reference path="../Typings/References.d.ts" />
+/// <reference types="durandal-globalization" />
 
 import app = require("durandal/app");
-import ActiveRoute = require("Navigation/ActiveRoute");
+import ActiveRoute = require("durandal-navigation-service/ActiveRoute");
 import jquery = require("jquery");
 import knockout = require("knockout");
-import NavigationConfiguration = require("Navigation/NavigationConfiguration");
-import Route = require("Navigation/Route");
+import NavigationConfiguration = require("durandal-navigation-service/NavigationConfiguration");
+import Route = require("durandal-navigation-service/Route");
 import router = require("plugins/router");
 import viewLocator = require("durandal/viewLocator");
 
@@ -337,7 +337,7 @@ class NavigationService {
     public static scrollTo(anchor: string, offset?: number) {
         // Scrolls to the anchor of the page
         try {
-            jquery("html,body").animate({ scrollTop: jquery("#" + anchor).offset().top + (!!offset ? offset : 0) }, 600);
+            jquery("html,body").animate({ scrollTop: (<JQuery.Coordinates>jquery("#" + anchor).offset()).top + (!!offset ? offset : 0) }, 600);
         } catch (Exception) { }
     }
 
@@ -350,7 +350,7 @@ class NavigationService {
         
         // Scrolls to the selector on the page
         try {
-            jquery("html,body").animate({ scrollTop: jquery(selector).offset().top + (!!offset ? offset : 0) }, 600);
+            jquery("html,body").animate({ scrollTop: (<JQuery.Coordinates>jquery(selector).offset()).top + (!!offset ? offset : 0) }, 600);
         } catch (Exception) { }
     }
 
@@ -363,7 +363,7 @@ class NavigationService {
 
         // Checks if the element is within the viewport
         try {
-            return jquery("#" + anchor).offset().top - jquery(window).scrollTop() <= jquery(window).height() && jquery("#" + anchor).offset().top - jquery(window).scrollTop() + jquery("#" + anchor).height() > 0;
+            return (<JQuery.Coordinates>jquery("#" + anchor).offset()).top - (<number>jquery(window).scrollTop()) <= <number>jquery(window).height() && (<JQuery.Coordinates>jquery("#" + anchor).offset()).top - (<number>jquery(window).scrollTop()) + <number>jquery("#" + anchor).height() > 0;
         } catch (Exception) {
             return false;
         }

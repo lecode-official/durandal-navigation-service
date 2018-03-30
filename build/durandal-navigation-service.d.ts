@@ -1,12 +1,7 @@
-
-/// <reference path="../../bower_components/DefinitelyTyped/jquery/index.d.ts" />
-/// <reference path="../../bower_components/DefinitelyTyped/durandal/index.d.ts" />
-/// <reference path="../../bower_components/DefinitelyTyped/knockout/index.d.ts" />
-/// <reference path="../../bower_components/typescript-globalization/build/typescript-globalization.d.ts" />
-declare module 'Navigation/ActiveRoute' {
-	/// <reference path="../Typings/References.d.ts" />
-	import CultureInfo = require("Globalization/CultureInfo");
-	import Route = require("Navigation/Route"); class ActiveRoute {
+declare module 'durandal-navigation-service/ActiveRoute' {
+	/// <reference types="durandal-globalization" />
+	import CultureInfo = require("durandal-globalization/CultureInfo");
+	import Route = require("durandal-navigation-service/Route"); class ActiveRoute {
 	    /**
 	     * Initializes a new ActiveRoute instance.
 	     * @param {Route} route The route that is active.
@@ -67,7 +62,7 @@ declare module 'Navigation/ActiveRoute' {
 	export = ActiveRoute;
 
 }
-declare module 'Navigation/NavigationConfiguration' {
+declare module 'durandal-navigation-service/NavigationConfiguration' {
 	 class NavigationConfiguration {
 	    /**
 	     * Gets or sets the root path that overrides the default root path.
@@ -85,11 +80,12 @@ declare module 'Navigation/NavigationConfiguration' {
 	export = NavigationConfiguration;
 
 }
-declare module 'Navigation/NavigationService' {
-	/// <reference path="../Typings/References.d.ts" />
-	import ActiveRoute = require("Navigation/ActiveRoute");
-	import NavigationConfiguration = require("Navigation/NavigationConfiguration");
-	import Route = require("Navigation/Route"); class NavigationService {
+declare module 'durandal-navigation-service/NavigationService' {
+	/// <reference types="knockout" />
+	/// <reference types="jquery" />
+	import ActiveRoute = require("durandal-navigation-service/ActiveRoute");
+	import NavigationConfiguration = require("durandal-navigation-service/NavigationConfiguration");
+	import Route = require("durandal-navigation-service/Route"); class NavigationService {
 	    /**
 	     * Contains a value that determines whether push state is supported by the browser
 	     */
@@ -197,9 +193,10 @@ declare module 'Navigation/NavigationService' {
 	export = NavigationService;
 
 }
-declare module 'Navigation/Route' {
-	/// <reference path="../Typings/References.d.ts" />
-	import CultureInfo = require("Globalization/CultureInfo"); class Route {
+declare module 'durandal-navigation-service/Route' {
+	/// <reference types="knockout" />
+	/// <reference types="durandal-globalization" />
+	import CultureInfo = require("durandal-globalization/CultureInfo"); class Route {
 	    /**
 	     * Initializes a new Route instance.
 	     * @param {string} name The name of the route.

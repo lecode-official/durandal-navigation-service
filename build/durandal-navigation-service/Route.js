@@ -1,11 +1,11 @@
-///<amd-module name='Navigation/Route'/>
-define("Navigation/Route", ["require", "exports", "plugins/router", "Globalization/CultureInfo"], function (require, exports, router, CultureInfo) {
+///<amd-module name='durandal-navigation-service/Route'/>
+define("durandal-navigation-service/Route", ["require", "exports", "plugins/router", "durandal-globalization/CultureInfo"], function (require, exports, router, CultureInfo) {
     "use strict";
     // #endregion
     /**
      * Represents a route of the navigation service, which can be used to determine the state of the route or generate a link to the route.
      */
-    var Route = (function () {
+    var Route = /** @class */ (function () {
         // #region Constructors
         /**
          * Initializes a new Route instance.

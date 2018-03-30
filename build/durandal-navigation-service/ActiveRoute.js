@@ -1,11 +1,11 @@
-///<amd-module name='Navigation/ActiveRoute'/>
-define("Navigation/ActiveRoute", ["require", "exports", "plugins/router", "Globalization/CultureInfo"], function (require, exports, router, CultureInfo) {
+///<amd-module name='durandal-navigation-service/ActiveRoute'/>
+define("durandal-navigation-service/ActiveRoute", ["require", "exports", "plugins/router", "durandal-globalization/CultureInfo"], function (require, exports, router, CultureInfo) {
     "use strict";
     // #endregion
     /**
      * Represents a route of the navigation service, which is currently active with a defined set of parameters.
      */
-    var ActiveRoute = (function () {
+    var ActiveRoute = /** @class */ (function () {
         // #region Constructors
         /**
          * Initializes a new ActiveRoute instance.
