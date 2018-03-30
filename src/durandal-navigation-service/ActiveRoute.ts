@@ -1,13 +1,13 @@
 ﻿
-///<amd-module name='Navigation/ActiveRoute'/>
+///<amd-module name='durandal-navigation-service/ActiveRoute'/>
 
 // #region Import Directives
 
-/// <reference path="../Typings/References.d.ts" />
+/// <reference types="durandal-globalization" />
 
 import router = require("plugins/router");
-import CultureInfo = require("Globalization/CultureInfo");
-import Route = require("Navigation/Route");
+import CultureInfo = require("durandal-globalization/CultureInfo");
+import Route = require("durandal-navigation-service/Route");
 
 // #endregion
 

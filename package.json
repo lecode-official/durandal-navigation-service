@@ -1,12 +1,11 @@
 {
-  "name": "typescript-navigation-service",
-  "displayName": "TypeScript Navigation Service",
-  "private": true,
-  "version": "0.1.3",
+  "name": "durandal-navigation-service",
+  "displayName": "Durandal Navigation Service",
+  "version": "0.1.4",
   "description": "A simple library written in TypeScript for managing the navigation in Durandal.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lecode-official/typescript-navigation-service.git"
+    "url": "git+https://github.com/lecode-official/durandal-navigation-service.git"
   },
   "keywords": [
     "Navigation",
@@ -18,17 +17,24 @@
   "author": "David Neumann & Lukas Rögner",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/lecode-official/typescript-navigation-service/issues"
+    "url": "https://github.com/lecode-official/durandal-navigation-service/issues"
   },
-  "homepage": "https://github.com/lecode-official/typescript-navigation-service#readme",
+  "homepage": "https://github.com/lecode-official/durandal-navigation-service#readme",
+  "dependencies": {
+    "durandal": "2.2.0",
+    "jquery": "~3.1.1",
+    "@types/jquery": "3.3.1",
+    "@types/durandal": "2.1.36",
+    "durandal-globalization": "https://github.com/lecode-official/durandal-globalization.git#v0.1.5"
+  },
   "devDependencies": {
-    "bower": "^1.7.9",
     "dts-generator": "2.0.0",
     "gulp": "^3.9.1",
-    "gulp-bower": "0.0.13",
     "gulp-clean": "^0.3.2",
     "gulp-typescript": "^3.0.1",
     "run-sequence": "1.2.2",
     "typescript": "^2.0.3"
-  }
+  },
+  "types": "./build/durandal-navigation-service.d.ts",
+  "typings": "./build/durandal-navigation-service.d.ts"
 }

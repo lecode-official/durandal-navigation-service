@@ -1,11 +1,11 @@
-///<amd-module name='Navigation/NavigationService'/>
-define("Navigation/NavigationService", ["require", "exports", "durandal/app", "Navigation/ActiveRoute", "jquery", "knockout", "Navigation/Route", "plugins/router", "durandal/viewLocator"], function (require, exports, app, ActiveRoute, jquery, knockout, Route, router, viewLocator) {
+///<amd-module name='durandal-navigation-service/NavigationService'/>
+define("durandal-navigation-service/NavigationService", ["require", "exports", "durandal/app", "durandal-navigation-service/ActiveRoute", "jquery", "knockout", "durandal-navigation-service/Route", "plugins/router", "durandal/viewLocator"], function (require, exports, app, ActiveRoute, jquery, knockout, Route, router, viewLocator) {
     "use strict";
     // #endregion
     /**
      * Represents a service that is used to navigate throughout the web application.
      */
-    var NavigationService = (function () {
+    var NavigationService = /** @class */ (function () {
         function NavigationService() {
         }
         Object.defineProperty(NavigationService, "isNavigating", {
@@ -264,37 +264,37 @@ define("Navigation/NavigationService", ["require", "exports", "durandal/app", "N
                 return false;
             }
         };
+        // #region Private Static Fields
+        /**
+         * Contains a value that determines whether push state is supported by the browser
+         */
+        NavigationService.isPushStateEnabled = !!(window.history && history.pushState);
+        /**
+         * Contains a dictionary of the module ID and the name of the route. This is used to get the name from a module ID.
+         */
+        NavigationService.routeNames = {};
+        /**
+         * Contains a value that determines whether the last navigation was backwards or forwards.
+         */
+        NavigationService.wasLastNavigationBackwards = false;
+        /**
+         * Contains a the depth of the navigation stack. Everytime the user navigates fowards, this depth is increased and everytime the user is navigating backwards, this value is decreased. This is used to detect,
+         * whether the browser's backwards navigation is enabled (there is no other way to find out).
+         */
+        NavigationService.navigationStackDepth = knockout.observable(0);
+        /**
+         * Contains the shell that uses the navigation service.
+         */
+        NavigationService._shell = null;
+        /**
+         * Contains a value that determines whether the navigation service is currently navigating.
+         */
+        NavigationService._isNavigating = router.isNavigating;
+        /**
+         * Gets a value that determines whether the browser can navigate backwards in its history.
+         */
+        NavigationService.canNavigateBackwards = knockout.computed(function () { return NavigationService.navigationStackDepth() > 0; });
         return NavigationService;
     }());
-    // #region Private Static Fields
-    /**
-     * Contains a value that determines whether push state is supported by the browser
-     */
-    NavigationService.isPushStateEnabled = !!(window.history && history.pushState);
-    /**
-     * Contains a dictionary of the module ID and the name of the route. This is used to get the name from a module ID.
-     */
-    NavigationService.routeNames = {};
-    /**
-     * Contains a value that determines whether the last navigation was backwards or forwards.
-     */
-    NavigationService.wasLastNavigationBackwards = false;
-    /**
-     * Contains a the depth of the navigation stack. Everytime the user navigates fowards, this depth is increased and everytime the user is navigating backwards, this value is decreased. This is used to detect,
-     * whether the browser's backwards navigation is enabled (there is no other way to find out).
-     */
-    NavigationService.navigationStackDepth = knockout.observable(0);
-    /**
-     * Contains the shell that uses the navigation service.
-     */
-    NavigationService._shell = null;
-    /**
-     * Contains a value that determines whether the navigation service is currently navigating.
-     */
-    NavigationService._isNavigating = router.isNavigating;
-    /**
-     * Gets a value that determines whether the browser can navigate backwards in its history.
-     */
-    NavigationService.canNavigateBackwards = knockout.computed(function () { return NavigationService.navigationStackDepth() > 0; });
     return NavigationService;
 });

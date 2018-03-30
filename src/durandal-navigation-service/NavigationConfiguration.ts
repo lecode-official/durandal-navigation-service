@@ -1,5 +1,5 @@
 ﻿
-///<amd-module name='Navigation/NavigationConfiguration'/>
+///<amd-module name='durandal-navigation-service/NavigationConfiguration'/>
 
 /**
  * Represents the configuration of the navigation service.
